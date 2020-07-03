@@ -31,4 +31,6 @@ docs/.vuepress/dist
 # IDEA 插件文件
 **/rebel.xml
 
-
+# 忽略static文件夹
+/.metadata/
+target
