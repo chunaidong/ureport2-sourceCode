@@ -2,7 +2,7 @@
  * Created by Jacky.Gao on 2017-03-17.
  */
 import './form/external/bootstrap-datetimepicker.css';
-import {pointToMM,showLoading,hideLoading} from './Utils.js';
+import {pointToMM,showLoading,hideLoading,hideSearchLoading, showSearchLoading} from './Utils.js';
 import {alert} from './MsgBox.js';
 import PDFPrintDialog from './dialog/PDFPrintDialog.js';
 import defaultI18nJsonData from './i18n/preview.json';
@@ -335,6 +335,7 @@ window._buildChart=function(canvasId,chartJson){
 };
 
 window.submitSearchForm=function(file,customParameters){
+
     window.searchFormParameters={};
     for(let fun of window.formElements){
         const json=fun.call(this);
@@ -351,6 +352,7 @@ window.submitSearchForm=function(file,customParameters){
     if(pageSelector.length>0){
         url+='&_i=1';
     }
+    showSearchLoading();
     $.ajax({
         url,
         type:'POST',
@@ -372,8 +374,10 @@ window.submitSearchForm=function(file,customParameters){
                 $('#totalPageLabel').html(totalPage);
                 buildPaging(pageIndex,totalPage);
             }
+            hideSearchLoading();
         },
         error:function(response){
+            hideSearchLoading();
             if(response && response.responseText){
                 alert("服务端错误："+response.responseText+"");
             }else{

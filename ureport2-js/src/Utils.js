@@ -14,6 +14,21 @@ export function showLoading(){
     $(document.body).append(loading);
 };
 
+export function showSearchLoading(){
+    const url=window._server+'/res/ureport-asserts/icons/loading.gif';
+    const h=$(window).height()/2,w=$(window).width()/2;
+    const cover=$(`<div class="ureport-search-loading-cover" style="position: absolute;left: 0px;top: 0px;width:${w*2}px;height:${h*2}px;z-index: 1199;background:rgba(222,222,222,.5)"></div>`);
+    $(document.body).append(cover);
+    const loading=$(`<div class="ureport-search-loading" style="text-align: center;position: absolute;z-index: 1120;left: ${w-35}px;top: ${h-35}px;"><img src="${url}">
+    <div style="margin-top: 5px">数据正在努力加载中,请稍等...</div></div>`);
+    $(document.body).append(loading);
+};
+
+export function hideSearchLoading(){
+    $('.ureport-search-loading-cover').remove();
+    $('.ureport-search-loading').remove();
+};
+
 export function hideLoading(){
     $('.ureport-loading-cover').remove();
     $('.ureport-loading').remove();

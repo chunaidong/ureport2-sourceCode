@@ -35,10 +35,21 @@ public class ColComponent extends ContainerComponent{
 		}
 		sb.append(">");
 		for(Component c:children){
+			//TODO 目前是控制选择日期范围，特意修改样式
+			if(c instanceof DateInputComponent && ((DateInputComponent) c).getBindParameter().endsWith(RangeDateUtils.START_DATE)){
+				repalceWord(sb,"style='padding-left: 10px;width: 63%;padding-right: 0px;'");
+			}else if(c instanceof DateInputComponent && ((DateInputComponent) c).getBindParameter().endsWith(RangeDateUtils.END_DATE)){
+				repalceWord(sb,"style='padding: 0;display: inline-block;float: right;width: 37%;margin: 0;'");
+			}
 			sb.append(c.toHtml(context));
 		}
 		sb.append("</div>");
 		return sb.toString();
+	}
+	private void repalceWord(StringBuffer sb,String finalReplaceWord){
+		int replaceStart = sb.indexOf(RangeDateUtils.REPLACE_START_WORD);
+		int replaceEnd = replaceStart + RangeDateUtils.REPALCE_END_WORD.length();
+		sb.replace(replaceStart,replaceEnd,finalReplaceWord);
 	}
 	@Override
 	public String initJs(RenderContext context) {

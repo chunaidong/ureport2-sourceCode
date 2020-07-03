@@ -16,6 +16,8 @@
 package com.bstek.ureport.definition.searchform;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author Jacky.gao
  * @since 2016年1月11日
@@ -36,7 +38,15 @@ public class DateInputComponent extends InputComponent {
 		sb.append("autoclose:1");
 		if(this.format.equals("yyyy-mm-dd")){		
 			sb.append(",startView:2,");
-			sb.append("minView:2");
+			sb.append("minView:2,");
+			sb.append("todayBtn:true,");
+			sb.append("todayHighlight:true");
+		}else if(StringUtils.equals("yyyy-mm",this.format)){
+			sb.append(",startView:3,");
+			sb.append("minView:3");
+		}else if(StringUtils.equals("yyyy",this.format)){
+			sb.append(",startView:4,");
+			sb.append("minView:4");
 		}
 		sb.append("});");
 		
@@ -61,9 +71,14 @@ public class DateInputComponent extends InputComponent {
 		String name=getBindParameter();
 		Object value=context.getParameter(name)==null ? "" : context.getParameter(name);
 		StringBuffer sb=new StringBuffer();
-		sb.append("<div id='"+context.buildComponentId(this)+"' class='input-group date'>");
-		sb.append("<input type='text' style=\"padding:3px;height:28px\" name='"+name+"' value=\""+value+"\" class='form-control'>");			
-		sb.append("<span class='input-group-addon' style=\"font-size:12px\"><span class='glyphicon glyphicon-calendar'></span></span>");
+		sb.append("<div id='"+context.buildComponentId(this)+"' class='input-group date' ");
+		if(name.endsWith(RangeDateUtils.START_DATE)){
+			sb.append("style='width: auto;' ");
+		}
+		sb.append(" >");
+		String placeHolder = RangeDateUtils.buildDatePlaceHolder(name,this.getLabel());
+		sb.append("<input type='text' style=\"padding:3px\" placeholder='"+placeHolder+"' name='"+name+"' value=\""+value+"\" class='form-control'>");
+		sb.append("<span class='input-group-addon'  style=\"font-size:12px\"><span class='glyphicon glyphicon-calendar'></span></span>");
 		sb.append("</div>");
 		return sb.toString();
 	}

@@ -15,13 +15,12 @@
  ******************************************************************************/
 package com.bstek.ureport.definition.searchform;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.bstek.ureport.Utils;
 import com.bstek.ureport.build.Dataset;
 import com.bstek.ureport.exception.DatasetUndefinitionException;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * @author Jacky.gao
@@ -38,7 +37,11 @@ public class SelectInputComponent extends InputComponent {
 		String name=getBindParameter();
 		Object pvalue=context.getParameter(name)==null ? "" : context.getParameter(name);
 		StringBuilder sb=new StringBuilder();
-		sb.append("<select style=\"padding:3px;height:28px\" id='"+context.buildComponentId(this)+"' name='"+name+"' class='form-control'>");
+		sb.append("<select style='padding:3px' title = '请选择"+this.getLabel()+"' data-live-search='true' data-size='5' id='"+context.buildComponentId(this)+"' name='"+name+"' class='form-control selectpicker' ");
+		if(name.endsWith(RangeDateUtils.MULTIPLE_SELECT)){
+			sb.append("data-selected-text-format='count > 3' data-actions-box='true'  multiple");
+		}
+		sb.append(" > ");
 		if(useDataset && StringUtils.isNotBlank(dataset)){
 			Dataset ds=context.getDataset(dataset);
 			if(ds==null){
@@ -50,18 +53,18 @@ public class SelectInputComponent extends InputComponent {
 				String selected=value.equals(pvalue) ? "selected" : "";
 				sb.append("<option value='"+value+"' "+selected+">"+label+"</option>");		
 			}
-			if(pvalue.equals("")){
+			/*if(pvalue.equals("")){
 				sb.append("<option value='' selected></option>");
-			}
+			}*/
 		}else{
 			for(Option option:options){
 				String value=option.getValue();
 				String selected=value.equals(pvalue) ? "selected" : "";
 				sb.append("<option value='"+value+"' "+selected+">"+option.getLabel()+"</option>");
 			}
-			if(pvalue.equals("")){
+			/*if(pvalue.equals("")){
 				sb.append("<option value='' selected></option>");
-			}
+			}*/
 		}
 		sb.append("</select>");
 		return sb.toString();
@@ -81,7 +84,7 @@ public class SelectInputComponent extends InputComponent {
 		sb.append("$('#"+context.buildComponentId(this)+"').val()");
 		sb.append("}");
 		sb.append("}");
-		sb.append(");");
+		sb.append(");$('#"+context.buildComponentId(this)+"').selectpicker('refresh');");
 		return sb.toString();
 	}
 	public boolean isUseDataset() {

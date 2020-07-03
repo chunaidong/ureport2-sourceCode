@@ -24,7 +24,8 @@ public class TextInputComponent extends InputComponent {
 	String inputHtml(RenderContext context) {
 		String name=getBindParameter();
 		Object pvalue=context.getParameter(name)==null ? "" : context.getParameter(name);
-		return "<input type='text' value=\""+pvalue+"\" style=\"padding:3px;height:28px\" id='"+context.buildComponentId(this)+"' name='"+getBindParameter()+"' class='form-control'>";	
+		return "<input type='text' value=\""+pvalue+"\" style=\"padding:3px\" id='"+context.buildComponentId(this)+"'" +
+				"placeholder='请输入"+this.getLabel()+"' name='"+name+"' class='form-control'>";
 	}
 	@Override
 	public String initJs(RenderContext context) {

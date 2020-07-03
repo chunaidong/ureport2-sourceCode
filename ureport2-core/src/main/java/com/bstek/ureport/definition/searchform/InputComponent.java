@@ -31,17 +31,20 @@ public abstract class InputComponent implements Component{
 	public String toHtml(RenderContext context) {
 		StringBuffer sb=new StringBuffer();
 		if(this.labelPosition.equals(LabelPosition.top)){
-			sb.append("<div>");			
+			sb.append("<div>");
 		}else{
-			sb.append("<div class='form-horizontal'>");			
+			sb.append("<div class='form-horizontal'");
+			if(bindParameter.endsWith(RangeDateUtils.START_DATE)){
+				sb.append(" style='margin-right: 0px;'");
+			}
+			sb.append(">");
 		}
 		sb.append("<div class='form-group' style='margin:0px 0px 10px 0px'>");
-		if(this.labelPosition.equals(LabelPosition.top)){		
+		if(this.labelPosition.equals(LabelPosition.top)){
 			sb.append("<span style='font-size:13px'>"+this.label+"</span>");			
 			sb.append(inputHtml(context));
-		}else{					
-			sb.append("<span class='col-md-3' style='text-align:right;padding-right:1px;font-size:13px'>"+this.label+"</span>");			
-			sb.append("<div class='col-md-9' style='padding-left:1px;'>");
+		}else{
+			RangeDateUtils.buildColStyle(sb,bindParameter,label);
 			sb.append(inputHtml(context));
 			sb.append("</div>");
 		}

@@ -1,0 +1,51 @@
+.DS_Store
+node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.settings/
+.project
+.classpath
+.factorypath
+.idea/
+*.iml
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+.springBeans
+package-lock.json
+docs/.vuepress/dist
+# IDEA 插件文件
+**/rebel.xml
+
+# 忽略static文件夹
+/.metadata/
+/purchase.frontend/src/main/purchase-data-ui/package-lock.json
+/purchase.frontend/src/main/purchase-data-ui/package.json
+/purchase.frontend/src/main/purchase-data-ui/yarn.lock
+target
+/supplier.service/supplier.service.common/target
+/supplier.service/supplier.service.client/target
+/supplier.service/supplier.service.server/*.project
+/supplier.service/supplier.service.server/*.classpath
+/supplier.service/supplier.service.common/.classpath
+/supplier.service/supplier.service.common/.project
+/supplier.service/supplier.service.client/.project
+/supplier.service/supplier.service.client/.classpath
+/supplier.frontend/src/main/purchase-data-ui
+/purchase.frontend/src/main/product-ui/purchase-synergy-ui/vue.config.js
+/purchase.frontend/src/main/product-ui/purchase-data-ui/yarn.lock
+/purchase.frontend/src/main/product-ui/purchase-plan-ui/*.lock
