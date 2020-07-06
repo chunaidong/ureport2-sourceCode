@@ -15,17 +15,21 @@
  ******************************************************************************/
 package com.bstek.ureport.console;
 
-import java.lang.reflect.Method;
-import java.net.URLDecoder;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import com.bstek.ureport.Utils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
+import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -119,7 +123,59 @@ public abstract class BaseServletAction implements ServletAction {
 			if(pos>0){
 				reportFileName=reportFileName.substring(0,pos);
 			}
+			String finalFileName = getFileName(reportFileName);
+			if(StringUtils.isNotBlank(finalFileName)){
+				return finalFileName+extName;
+			}
 			return "ureport-"+reportFileName+extName;
 		}
+	}
+
+	/**
+	 * 从数据库种获取文件导出名称
+	 * @param reportTitle
+	 * @return
+	 */
+	private String getFileName(String reportTitle){
+		System.out.println("查询数据库开始");
+		Connection connection = Utils.getBuildinConnection(Utils.getApplicationContext().getEnvironment().getProperty("ureport.datasource.name"));
+		String fileName = "";
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			String sql = "select file_name from ureport_export_name where title_name = ?";
+			preparedStatement = connection.prepareStatement(sql);
+		   	preparedStatement.setString(1,reportTitle);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()){
+				fileName = resultSet.getString("file_name");
+			}
+			System.out.println("查询数据库结束");
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}finally {
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
+			}
+			if(preparedStatement != null){
+				try {
+					preparedStatement.close();
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
+			}
+			if(resultSet != null){
+				try {
+					resultSet.close();
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
+			}
+		}
+		return fileName;
 	}
 }
