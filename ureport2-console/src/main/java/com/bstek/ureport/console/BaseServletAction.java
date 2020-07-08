@@ -137,7 +137,6 @@ public abstract class BaseServletAction implements ServletAction {
 	 * @return
 	 */
 	private String getFileName(String reportTitle){
-		System.out.println("查询数据库开始");
 		Connection connection = Utils.getBuildinConnection(Utils.getApplicationContext().getEnvironment().getProperty("ureport.datasource.name"));
 		String fileName = "";
 		PreparedStatement preparedStatement = null;
@@ -150,7 +149,6 @@ public abstract class BaseServletAction implements ServletAction {
 			while (resultSet.next()){
 				fileName = resultSet.getString("file_name");
 			}
-			System.out.println("查询数据库结束");
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}finally {
