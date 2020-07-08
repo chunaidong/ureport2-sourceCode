@@ -15,17 +15,12 @@
  ******************************************************************************/
 package com.bstek.ureport.export.html;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.bstek.ureport.build.BindData;
 import com.bstek.ureport.build.Context;
 import com.bstek.ureport.build.paging.Page;
 import com.bstek.ureport.chart.ChartData;
 import com.bstek.ureport.definition.Alignment;
+import com.bstek.ureport.definition.Band;
 import com.bstek.ureport.definition.Border;
 import com.bstek.ureport.definition.CellStyle;
 import com.bstek.ureport.expression.model.Expression;
@@ -33,11 +28,12 @@ import com.bstek.ureport.expression.model.data.BindDataListExpressionData;
 import com.bstek.ureport.expression.model.data.ExpressionData;
 import com.bstek.ureport.expression.model.data.ObjectExpressionData;
 import com.bstek.ureport.expression.model.data.ObjectListExpressionData;
-import com.bstek.ureport.model.Cell;
-import com.bstek.ureport.model.Column;
-import com.bstek.ureport.model.Image;
-import com.bstek.ureport.model.Report;
-import com.bstek.ureport.model.Row;
+import com.bstek.ureport.model.*;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jacky.gao
@@ -115,7 +111,11 @@ public class HtmlProducer{
 			if(height<1){
 				continue;
 			}
-			sb.append("<tr style=\"height:"+height+"pt\">");
+			sb.append("<tr style=\"height:").append(height).append("pt\"");
+			if(row.getBand() != null && row.getBand().equals(Band.headerrepeat)){
+				sb.append(" class='_ureport_tr'");
+			}
+			sb.append(">");
 			for(int j=0;j<colSize;j++){
 				Column col=columns.get(j);
 				Cell cell=null;
