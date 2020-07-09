@@ -37,6 +37,14 @@ public abstract class RangeDateUtils {
      * 多选结尾标志
      */
     public static final String MULTIPLE_SELECT = "Multiple";
+    /**
+     * 判断是否需要分组
+     */
+    public static final String CHARGE_ITEM = "收费科目";
+    /**
+     * 是否抄表
+     */
+    public static final String IS_METER_READING = "Y";
 
     /**
      * 构造样式

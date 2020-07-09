@@ -37,7 +37,7 @@ public class SelectInputComponent extends InputComponent {
 		String name=getBindParameter();
 		Object pvalue=context.getParameter(name)==null ? "" : context.getParameter(name);
 		StringBuilder sb=new StringBuilder();
-		sb.append("<select style='padding:3px' title = '请选择"+this.getLabel()+"' data-live-search='true' data-size='5' id='"+context.buildComponentId(this)+"' name='"+name+"' class='form-control selectpicker' ");
+		sb.append("<select style='padding:3px' title = '请选择"+this.getLabel()+"' data-live-search='true' data-size='7' id='"+context.buildComponentId(this)+"' name='"+name+"' class='form-control selectpicker' ");
 		if(name.endsWith(RangeDateUtils.MULTIPLE_SELECT)){
 			sb.append("data-selected-text-format='count > 3' data-actions-box='true'  multiple");
 		}
@@ -47,15 +47,33 @@ public class SelectInputComponent extends InputComponent {
 			if(ds==null){
 				throw new DatasetUndefinitionException(dataset);
 			}
+			//需要对收费科目做分组处理
+			boolean isNeedGroup = false;
+			StringBuilder meterReading = new StringBuilder("<optgroup label='抄表'>");
+			StringBuilder unMeterReading = new StringBuilder("<optgroup label='非抄表'>");
+			if(StringUtils.equals(RangeDateUtils.CHARGE_ITEM,this.getLabel())){
+				isNeedGroup = true;
+			}
 			for(Object obj:ds.getData()){
 				Object label=Utils.getProperty(obj, labelField);
 				Object value=Utils.getProperty(obj, valueField);
 				String selected=value.equals(pvalue) ? "selected" : "";
-				sb.append("<option value='"+value+"' "+selected+">"+label+"</option>");		
+				String option = "<option value='"+value+"' "+selected+">"+label+"</option>";
+				if(isNeedGroup){
+					if (RangeDateUtils.IS_METER_READING.equals(Utils.getProperty(obj, "ifMeterReading"))) {
+						meterReading.append(option);
+					} else {
+						unMeterReading.append(option);
+					}
+				}else{
+					sb.append(option);
+				}
 			}
-			/*if(pvalue.equals("")){
-				sb.append("<option value='' selected></option>");
-			}*/
+			if(isNeedGroup){
+				meterReading.append("</optgroup>");
+				unMeterReading.append("</optgroup>");
+				sb.append(meterReading).append(unMeterReading);
+			}
 		}else{
 			for(Option option:options){
 				String value=option.getValue();
@@ -66,6 +84,7 @@ public class SelectInputComponent extends InputComponent {
 				sb.append("<option value='' selected></option>");
 			}*/
 		}
+
 		sb.append("</select>");
 		return sb.toString();
 	}
