@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.bstek.ureport</groupId>
+	<groupId>com.spcp.ureport</groupId>
 	<artifactId>ureport2-parent</artifactId>
 	<version>2.0.6</version>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<licenses>
+	<!--<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -30,7 +30,7 @@
 	<organization>
 		<name>Bstek</name>
 		<url>http://www.bstek.com</url>
-	</organization>
+	</organization>-->
 	<build>
 		<resources>
 			<resource>
@@ -165,7 +165,7 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
+	<!--<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -181,5 +181,5 @@
 	<issueManagement>
 		<url>${jira.browse.url}/VELOCITY</url>
 	</issueManagement>
-	<description>UReport2 Parent Project</description>
+	<description>UReport2 Parent Project</description>-->
 </project>

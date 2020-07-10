@@ -13,7 +13,7 @@
   		<version>2.0.1</version>
   	</dependency>
   </dependencies>
-	<licenses>
+	<!--<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -37,5 +37,5 @@
 		<url>http://www.bstek.com</url>
 	</organization>
 	<name>UReport2 Font Project</name>
-	<url>https://github.com/youseries/ureport/tree/master/ureport2-font</url>
+	<url>https://github.com/youseries/ureport/tree/master/ureport2-font</url>-->
 </project>
