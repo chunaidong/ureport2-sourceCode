@@ -22,12 +22,16 @@ package com.bstek.ureport.definition.searchform;
 public class ResetButtonComponent extends ButtonComponent{
 	@Override
 	public String toHtml(RenderContext context) {
-		return "<button type=\"reset\" id=\""+context.buildComponentId(this)+"\"" +
+		return "<button type='button' id=\""+context.buildComponentId(this)+"\"" +
 				"style=\"padding: 6px 12px;float:left;margin-left:16px\" " +
 				" class=\"btn "+getStyle()+" btn-sm\">"+getLabel()+"</button>";
 	}
 	@Override
 	public String initJs(RenderContext context) {
-		return "";
+		StringBuilder sb=new StringBuilder();
+		sb.append("$('#"+context.buildComponentId(this)+"').click(function(){");
+		sb.append("resetForm();");
+		sb.append("});");
+		return sb.toString();
 	}
 }

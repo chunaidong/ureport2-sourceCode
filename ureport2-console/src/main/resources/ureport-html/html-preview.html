@@ -127,6 +127,7 @@ ${downSearchFormHtml}
 <script type="text/javascript">
 window._server="${contextPath}/ureport";
 window.formElements=[];
+
 $(document).ready(function(){
 	
 	buildPaging(${pageIndex},${totalPageWithCol});
@@ -139,6 +140,11 @@ $(document).ready(function(){
 	function doSearch(){
 		submitSearchForm("${file}","${customParameters}");
 	}
+	function resetForm() {
+		$("#ureport_search_form input").val("");
+		$("#ureport_search_form select").val("").trigger("change");
+	}
+
 });
 </script>
 </body>
