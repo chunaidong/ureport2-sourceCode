@@ -36,7 +36,7 @@ public abstract class RangeDateUtils {
     /**
      * 多选结尾标志
      */
-    public static final String MULTIPLE_SELECT = "Multiple";
+    public static final String MULTIPLE_SELECT = "CheckBox";
     /**
      * 判断是否需要分组
      */
