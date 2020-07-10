@@ -19,6 +19,7 @@ yarn-error.log*
 .factorypath
 .idea/
 *.iml
+*.jar
 .vscode
 *.suo
 *.ntvs*
@@ -33,4 +34,4 @@ docs/.vuepress/dist
 
 # 忽略static文件夹
 /.metadata/
-target
+target/
