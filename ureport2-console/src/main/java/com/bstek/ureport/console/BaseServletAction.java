@@ -107,7 +107,7 @@ public abstract class BaseServletAction implements ServletAction {
 		return null;
 	}
 	
-	protected String buildDownloadFileName(String reportFileName,String fileName,String extName){
+	protected String buildDownloadFileName(String reportFileName,String fileName,String extName,HttpServletRequest req){
 		if(StringUtils.isNotBlank(fileName)){
 			fileName=decode(fileName);
 			if(!fileName.toLowerCase().endsWith(extName)){
@@ -123,7 +123,8 @@ public abstract class BaseServletAction implements ServletAction {
 			if(pos>0){
 				reportFileName=reportFileName.substring(0,pos);
 			}
-			String finalFileName = getFileName(reportFileName);
+			String projId = req.getParameter("projId");
+			String finalFileName = getFileName(reportFileName,projId);
 			if(StringUtils.isNotBlank(finalFileName)){
 				return finalFileName+extName;
 			}
@@ -136,18 +137,29 @@ public abstract class BaseServletAction implements ServletAction {
 	 * @param reportTitle
 	 * @return
 	 */
-	private String getFileName(String reportTitle){
+	private String getFileName(String reportTitle,String projId){
 		Connection connection = Utils.getBuildinConnection(Utils.getApplicationContext().getEnvironment().getProperty("ureport.datasource.name"));
 		String fileName = "";
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
+		String sql = "";
 		try {
-			String sql = "select file_name from ureport_export_name where title_name = ?";
+
+			sql = "select file_name from ureport_export_name where title_name = ?";
 			preparedStatement = connection.prepareStatement(sql);
 		   	preparedStatement.setString(1,reportTitle);
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()){
 				fileName = resultSet.getString("file_name");
+			}
+			if(StringUtils.isNotBlank(projId)){
+				sql = "SELECT org_name FROM tb_org_structure WHERE id = ?";
+				preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setString(1,projId);
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()){
+					fileName = resultSet.getString("org_name") + "-" + fileName;
+				}
 			}
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();

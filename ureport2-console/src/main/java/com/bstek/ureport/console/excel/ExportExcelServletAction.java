@@ -15,16 +15,6 @@
  ******************************************************************************/
 package com.bstek.ureport.console.excel;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-
 import com.bstek.ureport.build.ReportBuilder;
 import com.bstek.ureport.console.BaseServletAction;
 import com.bstek.ureport.console.cache.TempObjectCache;
@@ -37,6 +27,14 @@ import com.bstek.ureport.export.ExportConfigureImpl;
 import com.bstek.ureport.export.ExportManager;
 import com.bstek.ureport.export.excel.high.ExcelProducer;
 import com.bstek.ureport.model.Report;
+import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * @author Jacky.gao
@@ -73,7 +71,7 @@ public class ExportExcelServletAction extends BaseServletAction {
 		OutputStream outputStream=resp.getOutputStream();
 		try {
 			String fileName=req.getParameter("_n");
-			fileName=buildDownloadFileName(file, fileName, ".xlsx");
+			fileName=buildDownloadFileName(file, fileName, ".xlsx",req);
 			resp.setContentType("application/octet-stream;charset=ISO8859-1");
 			fileName=new String(fileName.getBytes("UTF-8"),"ISO8859-1");
 			resp.setHeader("Content-Disposition","attachment;filename=\"" + fileName + "\"");
