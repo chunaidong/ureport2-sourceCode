@@ -124,7 +124,8 @@ public abstract class BaseServletAction implements ServletAction {
 				reportFileName=reportFileName.substring(0,pos);
 			}
 			String projId = req.getParameter("projId");
-			String finalFileName = getFileName(reportFileName,projId);
+			String orgId = req.getParameter("orgId");
+			String finalFileName = getFileName(reportFileName,projId,orgId);
 			if(StringUtils.isNotBlank(finalFileName)){
 				return finalFileName+extName;
 			}
@@ -135,9 +136,10 @@ public abstract class BaseServletAction implements ServletAction {
 	/**
 	 * 从数据库种获取文件导出名称
 	 * @param reportTitle
+	 * @param orgId
 	 * @return
 	 */
-	private String getFileName(String reportTitle,String projId){
+	private String getFileName(String reportTitle, String projId, String orgId){
 		Connection connection = Utils.getBuildinConnection(Utils.getApplicationContext().getEnvironment().getProperty("ureport.datasource.name"));
 		String fileName = "";
 		PreparedStatement preparedStatement = null;
@@ -156,6 +158,15 @@ public abstract class BaseServletAction implements ServletAction {
 				sql = "SELECT org_name FROM tb_org_structure WHERE id = ?";
 				preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1,projId);
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()){
+					fileName = resultSet.getString("org_name") + "-" + fileName;
+				}
+			}
+			if(StringUtils.isNotBlank(orgId)){
+				sql = "SELECT org_name FROM tb_org_structure WHERE id = ?";
+				preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setString(1,orgId);
 				resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()){
 					fileName = resultSet.getString("org_name") + "-" + fileName;
